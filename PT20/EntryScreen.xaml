@@ -1,0 +1,19 @@
+﻿<UserControl x:Class="PT20.EntryScreen"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:PT20"
+             mc:Ignorable="d" Height="900" Width="1400"
+             d:DesignHeight="900" d:DesignWidth="1400" Background="#0099CC">
+    <Grid Margin="0,0,0,0">
+        <Label Content="Presentation Trainer" HorizontalAlignment="Stretch" Margin="335,66,171,0" VerticalAlignment="Top" Height="125" Width="894" FontSize="72" FontFamily="Yu Gothic UI Semibold" Foreground="#FFE7A628"/>
+        <ListBox HorizontalAlignment="Left" SelectionChanged="usersListBox_SelectionChanged" Name="usersListBox" Height="196" Margin="192,513,0,0" VerticalAlignment="Top" Width="492" Background="#FFDBFAFB"/>
+        <TextBox Name="nameTextBox" HorizontalAlignment="Left" Height="47" Margin="192,406,0,0" TextWrapping="Wrap" Text="Name" VerticalAlignment="Top" Width="492" Background="#FFDBFAFB" FontSize="24"/>
+        <Label Content="Enter your Name or Select your Name from the list" HorizontalAlignment="Left" Height="100" Margin="192,306,0,0" VerticalAlignment="Top" Width="850" FontSize="36" FontFamily="Yu Gothic UI Semibold" Foreground="#FFE7A628"/>
+        <Button Name="userSelected" Background="LightBlue" HorizontalAlignment="Left" Margin="876,590,0,0" VerticalAlignment="Top" Width="166" Height="119" Click="userSelected_Click">
+            <Image Source="Images/ic_next.png" />
+        </Button>
+
+    </Grid>
+</UserControl>
