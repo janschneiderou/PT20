@@ -38,6 +38,15 @@ namespace PT20
             posture1.Source = MainWindow.postureImages[0];
             posture2.Source = MainWindow.postureImages[1];
             posture3.Source = MainWindow.postureImages[2];
+
+            if (MainWindow.freeGoal == true)
+            {
+                answerQuestion.Text = "";
+            }
+            else
+            {
+                answerQuestion.Text = "In my next Presentation I will focus on ";
+            }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

@@ -177,7 +177,7 @@ namespace PT20
                         if (mistakes.Count == 0 && previousAction.myMistake != PresentationAction.MistakeType.NOMISTAKE)
                         {
                             doGoodEventStuff();
-                           // parent.sendFeedback(PresentationAction.MistakeType.NOMISTAKE);
+                            parent.sendFeedback(PresentationAction.MistakeType.NOMISTAKE);
                             //put previous mistake to no Mistake
                             //start timer
                         }
@@ -188,14 +188,14 @@ namespace PT20
                                  previousAction.myMistake != PresentationAction.MistakeType.NOMISTAKE)
                             {
                                 doGoodEventStuff();
-                               // parent.sendFeedback(PresentationAction.MistakeType.NOMISTAKE);
+                                parent.sendFeedback(PresentationAction.MistakeType.NOMISTAKE);
                                 // mistakes.Clear();
                                 didIGiveFeedback = true;
                             }
                             if (didIGiveFeedback == false)
                             {
                                 doFeedbackEventStuff();
-                                //parent.sendFeedback(((PresentationAction)mistakes[0]).myMistake);
+                                parent.sendFeedback(((PresentationAction)mistakes[0]).myMistake);
 
                             }
                         }

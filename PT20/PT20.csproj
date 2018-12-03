@@ -146,6 +146,7 @@
     </Compile>
     <Compile Include="FaceFrameHandler.cs" />
     <Compile Include="FaceFramePreAnalysis.cs" />
+    <Compile Include="FeedbackObject.cs" />
     <Compile Include="FrameObject.cs" />
     <Compile Include="FreestyleMode.xaml.cs">
       <DependentUpon>FreestyleMode.xaml</DependentUpon>

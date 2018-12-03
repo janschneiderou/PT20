@@ -30,6 +30,7 @@ namespace PT20
         double[] hmmmPtm;
         double[] blankPtm;
         double[] pausesPtm;
+        List<string> sessionGoals;
         double maxValue;
         public MainWindow parent;
         string currentDirectoryString;
@@ -49,12 +50,62 @@ namespace PT20
             pausesPtm = new double[5];
             InitializeComponent();
             myDirectories = GetDirectories();
+            doGoalStuff();
             getLastFiveDirectories();
+            
+           
+
             currentDirectoryInt = myDirectories.Count - 1;
             getValues();
             placeValues();
-            getDirectoryNames();
+            if(currentDirectoryInt!=-1)
+            {
+                getDirectoryNames();
+            }
             
+            
+        }
+
+        private void doGoalStuff()
+        {
+            getGoals();
+            if (sessionGoals.Count > 5)
+            {
+                getLastSixGoals();
+            }
+            else
+            {
+                sessionGoals.Insert(0, "");
+            }
+        }
+
+        private void getLastSixGoals()
+        {
+            if (sessionGoals.Count > 6)
+            {
+
+                sessionGoals.RemoveAt(0);
+                getLastSixGoals();
+            }
+        }
+
+        private void getGoals()
+        {
+            sessionGoals = new List<string>();
+            foreach(string s in myDirectories)
+            {
+                string filePathGoals = System.IO.Path.Combine(MainWindow.userDirectory, s);
+                 filePathGoals = System.IO.Path.Combine(filePathGoals, "Goals.txt");
+
+                string goals = "";
+                if (File.Exists(filePathGoals))
+                {
+
+                    goals = File.ReadAllText(filePathGoals);
+                    
+                }
+                sessionGoals.Add(goals);
+            }
         }
 
         public void loaded()
@@ -63,24 +114,31 @@ namespace PT20
         }
 
         
+  
 
         private void getDirectoryNames()
         {
+            
+
             string tempString = myDirectories[currentDirectoryInt];
             tempString = tempString.Substring(tempString.LastIndexOf("\\")+1);
             currentDirectoryString = tempString;
 
             currentTraining.Content = "Practice Session: "+ currentDirectoryString;
 
-            if (File.Exists(MainWindow.userDirectory + "\\"+ currentDirectoryString +"\\"+ currentDirectoryString+"c.mp4"))
+            string filePath = System.IO.Path.Combine(MainWindow.userDirectory, currentDirectoryString);
+            filePath = System.IO.Path.Combine(filePath, currentDirectoryString + "c.mp4");
+            string filePathB = System.IO.Path.Combine(MainWindow.userDirectory, currentDirectoryString);
+            filePathB = System.IO.Path.Combine(filePathB, currentDirectoryString + ".mp4");
+            if (File.Exists(filePath))
             {
                
-                myVideo.Source = new System.Uri(MainWindow.userDirectory +"\\" + currentDirectoryString + "\\" + currentDirectoryString + "c.mp4");
+                myVideo.Source = new System.Uri(filePath);
               //  myVideo.Stop();
             }
-            else if(File.Exists(MainWindow.userDirectory + "\\" + currentDirectoryString + "\\" + currentDirectoryString + ".mp4"))
+            else if(File.Exists(filePathB))
             {
-                myVideo.Source = new System.Uri(MainWindow.userDirectory + "\\" + currentDirectoryString + "\\" + currentDirectoryString + ".mp4");
+                myVideo.Source = new System.Uri(filePathB);
                // myVideo.Stop();
             }
 
@@ -107,6 +165,7 @@ namespace PT20
         {
             try
             {
+                goalsLabel.Text = sessionGoals[currentDirectoryInt];
                 first.Children.Clear();
                 for (int i = 0; i < myDirectories.Count; i++)
                 {
@@ -205,12 +264,17 @@ namespace PT20
             foreach(string s in myDirectories)
             {
 
-                string path = s + "\\selfEvaluation.txt";
+                string path = System.IO.Path.Combine(MainWindow.userDirectory, s);
+                path = System.IO.Path.Combine(path, "selfEvaluation.txt");
+                  
+                
                 if (File.Exists(path))
                 {
                     string fileString = File.ReadAllText(path);
+                    string pImage = System.IO.Path.Combine(MainWindow.executingDirectory, "Images");
+                    pImage = System.IO.Path.Combine(pImage, fileString);
                     Image img = new Image();
-                    img.Source = new BitmapImage(new Uri(MainWindow.executingDirectory + "\\Images\\" + fileString));
+                    img.Source = new BitmapImage(new Uri(pImage));
                     img.Width = 30;
                     first.Children.Add(img);
                     Canvas.SetLeft(img, 50 + i * 50-5);
@@ -248,7 +312,9 @@ namespace PT20
         {
             try
             {
-                string fileString = File.ReadAllText(filePath + "\\Log.txt");
+                string path = System.IO.Path.Combine(MainWindow.userDirectory, filePath);
+                path = System.IO.Path.Combine(path, "Log.txt");
+                string fileString = File.ReadAllText(path);
                 int start = fileString.IndexOf("totalPTM") + 9;
                 int finish = fileString.IndexOf(Environment.NewLine, start);
                 int length = finish - start;
@@ -309,8 +375,10 @@ namespace PT20
 
         private void getLastFiveDirectories()
         {
+           
             if(myDirectories.Count>5)
             {
+              
                 myDirectories.RemoveAt(0);
                 getLastFiveDirectories();
             }
@@ -320,7 +388,12 @@ namespace PT20
         {
             try
             {
-                return Directory.GetDirectories(MainWindow.userDirectory).ToList();
+                var di = new DirectoryInfo(MainWindow.userDirectory);
+                var directories = di.EnumerateDirectories()
+                                    .OrderBy(d => d.CreationTime)
+                                    .Select(d => d.Name)
+                                    .ToList();
+                return directories;
             }
             catch (UnauthorizedAccessException)
             {
@@ -382,7 +455,9 @@ namespace PT20
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
-            string path = MainWindow.userDirectory + "\\" + currentDirectoryString + "\\selfEvaluation.txt";
+           // string path = MainWindow.userDirectory + "\\" + currentDirectoryString + "\\selfEvaluation.txt";
+            string path = System.IO.Path.Combine(MainWindow.userDirectory, currentDirectoryString);
+            path = System.IO.Path.Combine(path, "selfEvaluation.txt");
             System.IO.File.WriteAllText(path, "Feel1.png");
             placeValues();
             
@@ -390,8 +465,9 @@ namespace PT20
 
         private void Button_Click_3(object sender, RoutedEventArgs e)
         {
-            string path = MainWindow.userDirectory + "\\" + currentDirectoryString + "\\selfEvaluation.txt";
-           
+            // string path = MainWindow.userDirectory + "\\" + currentDirectoryString + "\\selfEvaluation.txt";
+            string path = System.IO.Path.Combine(MainWindow.userDirectory, currentDirectoryString);
+            path = System.IO.Path.Combine(path, "selfEvaluation.txt");
             System.IO.File.WriteAllText(path, "Feel2.png");
             placeValues();
 
@@ -399,8 +475,9 @@ namespace PT20
 
         private void Button_Click_4(object sender, RoutedEventArgs e)
         {
-            string path = MainWindow.userDirectory + "\\" + currentDirectoryString + "\\selfEvaluation.txt";
-            
+            //string path = MainWindow.userDirectory + "\\" + currentDirectoryString + "\\selfEvaluation.txt";
+            string path = System.IO.Path.Combine(MainWindow.userDirectory, currentDirectoryString);
+            path = System.IO.Path.Combine(path, "selfEvaluation.txt");
             System.IO.File.WriteAllText(path, "Feel3.png");
             placeValues();
 
@@ -408,7 +485,9 @@ namespace PT20
 
         private void Button_Click_5(object sender, RoutedEventArgs e)
         {
-            string path = MainWindow.userDirectory + "\\" + currentDirectoryString + "\\selfEvaluation.txt";
+            //string path = MainWindow.userDirectory + "\\" + currentDirectoryString + "\\selfEvaluation.txt";
+            string path = System.IO.Path.Combine(MainWindow.userDirectory, currentDirectoryString);
+            path = System.IO.Path.Combine(path, "selfEvaluation.txt");
             System.IO.File.WriteAllText(path, "Feel4.png");
             placeValues();
 
@@ -416,7 +495,9 @@ namespace PT20
 
         private void Button_Click_6(object sender, RoutedEventArgs e)
         {
-            string path = MainWindow.userDirectory + "\\" + currentDirectoryString + "\\selfEvaluation.txt";
+            //string path = MainWindow.userDirectory + "\\" + currentDirectoryString + "\\selfEvaluation.txt";
+            string path = System.IO.Path.Combine(MainWindow.userDirectory, currentDirectoryString);
+            path = System.IO.Path.Combine(path, "selfEvaluation.txt");
             System.IO.File.WriteAllText(path, "Feel5.png");
             placeValues();
 

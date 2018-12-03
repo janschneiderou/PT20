@@ -38,6 +38,14 @@ namespace PT20
             double leftPoint;
             double rightPoint;
 
+            if (MainWindow.freeGoal == true)
+            {
+                answerQuestion.Text = "";
+            }
+            else
+            {
+                answerQuestion.Text = "In my next Presentation I will focus on ";
+            }
 
             for (int i = 0; i < MainWindow.gestureTimes.Count; i++)
             {

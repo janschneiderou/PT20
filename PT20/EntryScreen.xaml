@@ -14,6 +14,11 @@
         <Button Name="userSelected" Background="LightBlue" HorizontalAlignment="Left" Margin="876,590,0,0" VerticalAlignment="Top" Width="166" Height="119" Click="userSelected_Click">
             <Image Source="Images/ic_next.png" />
         </Button>
+        <TextBox Name="ipText" HorizontalAlignment="Left" Height="22" Margin="1134,439,0,0" TextWrapping="Wrap" Text="192.168.178.23" VerticalAlignment="Top" Width="119"/>
+        <TextBox Name="portText" HorizontalAlignment="Left" Height="22" Margin="1135,479,0,0" TextWrapping="Wrap" Text="16002" VerticalAlignment="Top" Width="120"/>
+        <Label Content="IP" HorizontalAlignment="Left" Margin="1092,435,0,0" VerticalAlignment="Top"/>
+        <Label Content="Port" HorizontalAlignment="Left" Height="31" Margin="1093,475,0,0" VerticalAlignment="Top" Width="37"/>
+        <CheckBox Name="freeGoal" Content="free goal" HorizontalAlignment="Left" Margin="1188,338,0,0" VerticalAlignment="Top"/>
 
     </Grid>
 </UserControl>

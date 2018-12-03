@@ -49,9 +49,13 @@ namespace PT20
 
         public RecordingClass()
         {
-            filenameAudio = MainWindow.recordingPath + "\\" + MainWindow.recordingID + ".wav";
-            filenameCombined = MainWindow.recordingPath + "\\" + MainWindow.recordingID + "c.mp4";
-            filename = MainWindow.recordingPath + "\\" + MainWindow.recordingID + ".mp4";
+            
+           // filenameAudio = MainWindow.recordingPath + "\\" + MainWindow.recordingID + ".wav";
+            filenameAudio = System.IO.Path.Combine(MainWindow.recordingPath, MainWindow.recordingID + ".wav");
+            //filenameCombined = MainWindow.recordingPath + "\\" + MainWindow.recordingID + "c.mp4";
+            filenameCombined = System.IO.Path.Combine(MainWindow.recordingPath, MainWindow.recordingID + "c.mp4");
+            //filename = MainWindow.recordingPath + "\\" + MainWindow.recordingID + ".mp4";
+            filename = System.IO.Path.Combine(MainWindow.recordingPath, MainWindow.recordingID + ".mp4");
 
             initalizeAudioStuff();
 

@@ -26,6 +26,15 @@ namespace PT20
             questions[1] = "How can you improve your use of pauses?";
             questions[2] = "Can you add some longer pauses?";
 
+            if(MainWindow.freeGoal==true)
+            {
+                answer1.Text = "";
+            }
+           else 
+            {
+                answer1.Text = "In my next Presentation I will focus on ";
+            }
+
             labelQuestion.Content = questions[currentQuestion];
 
             double xfactor = 800 / MainWindow.presentationDuration;

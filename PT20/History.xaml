@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:PT20"
              mc:Ignorable="d" 
               d:DesignHeight="800" d:DesignWidth="1200">
-    <Grid>
+    <Grid Margin="0,16,0,-16">
         <Grid Name="historyGrid" Width="479" Background="WhiteSmoke" Height="367" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="634,54,0,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="88*"/>
@@ -25,12 +25,12 @@
 
 
         </Grid>
-        <Button Foreground="White" Name="returnButton" Background="LightBlue" Content="Return" FontSize="28" HorizontalAlignment="Left" Margin="962,589,0,0" VerticalAlignment="Top" Width="199" Height="132" Click="returnButton_Click" Visibility="Visible" >
+        <Button Foreground="White" Name="returnButton" Background="LightBlue" Content="Return" FontSize="28" HorizontalAlignment="Left" Margin="1023,650,0,0" VerticalAlignment="Top" Width="144" Height="54" Click="returnButton_Click" Visibility="Visible" >
 
         </Button>
         <Button Name="buttonPrevious" Background="LightBlue" Foreground="White" Content="Previous Session" HorizontalAlignment="Left" Height="27" Margin="26,12,0,0" VerticalAlignment="Top" Width="104" Click="Button_Click"/>
         <Button Name="buttonNext" Background="LightBlue" Foreground="White" Content="Next Session" HorizontalAlignment="Left" Height="27" Margin="979,12,0,0" VerticalAlignment="Top" Width="104" Click="Button_Click_1"/>
-        <MediaElement Name="myVideo" HorizontalAlignment="Left" Height="295" Margin="30,55,0,0" VerticalAlignment="Top" Width="479" LoadedBehavior="Manual" UnloadedBehavior="Manual"/>
+        <MediaElement Name="myVideo" Volume="1" HorizontalAlignment="Left" Height="295" Margin="26,54,0,0" VerticalAlignment="Top" Width="479" LoadedBehavior="Manual" UnloadedBehavior="Manual"/>
         <Label Content="Training Session:" Foreground="White" FontSize="27" Name="currentTraining" HorizontalAlignment="Left" Margin="182,-3,0,0" VerticalAlignment="Top" Width="750" Height="42">
 
         </Label>
@@ -40,23 +40,23 @@
         <Button Name="stopButton" Background="LightBlue" BorderBrush="Transparent"  HorizontalAlignment="Left" Margin="311,366,0,0" VerticalAlignment="Top" Width="83" Height="72" Click="stopButton_Click">
             <Image Source="Images/ic_stop1.png" />
         </Button>
-        <Grid Background="White" Margin="342,477,356,63">
-            <Button  HorizontalAlignment="Left" Margin="32,142,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click_2">
+        <Grid Background="White" Margin="634,448,20,177" Width="520" HorizontalAlignment="Left">
+            <Button  HorizontalAlignment="Left" Margin="32,60,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click_2">
                 <Image Source="Images/Feel1.png" />
             </Button>
-            <Button  HorizontalAlignment="Left" Margin="127,142,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click_3">
+            <Button  HorizontalAlignment="Left" Margin="127,60,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click_3">
                 <Image Source="Images/Feel2.png" />
             </Button>
-            <Button  HorizontalAlignment="Left" Margin="225,142,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click_4">
+            <Button  HorizontalAlignment="Left" Margin="225,60,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click_4">
                 <Image Source="Images/Feel3.png" />
             </Button>
-            <Button  HorizontalAlignment="Left" Margin="320,142,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click_5">
+            <Button  HorizontalAlignment="Left" Margin="320,60,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click_5">
                 <Image Source="Images/Feel4.png" />
             </Button>
-            <Button  HorizontalAlignment="Left" Margin="417,142,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click_6">
+            <Button  HorizontalAlignment="Left" Margin="417,60,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click_6">
                 <Image Source="Images/Feel5.png" Height="68" />
             </Button>
-            <Label Content="How do you feel about this training session?" FontSize="20" HorizontalAlignment="Left" Margin="67,47,0,0" VerticalAlignment="Top"/>
+            <Label Content="How do you feel about this training session?" FontSize="20" HorizontalAlignment="Left" Margin="67,20,0,0" VerticalAlignment="Top"/>
 
         </Grid>
         <Ellipse Fill="Black" HorizontalAlignment="Left" Height="18" Margin="756,101,0,0" Stroke="Black" VerticalAlignment="Top" Width="21"/>
@@ -67,6 +67,8 @@
         <Ellipse Fill="Violet" HorizontalAlignment="Left" Height="18" Margin="756,253,0,0" Stroke="Black" VerticalAlignment="Top" Width="21"/>
         <Ellipse Fill="Chocolate" HorizontalAlignment="Left" Height="18" Margin="756,283,0,0" Stroke="Black" VerticalAlignment="Top" Width="21"/>
         <Ellipse Fill="Orange" HorizontalAlignment="Left" Height="18" Margin="756,311,0,0" Stroke="Black" VerticalAlignment="Top" Width="21"/>
-        <Label Content="Label" HorizontalAlignment="Left" Margin="628,767,0,0" VerticalAlignment="Top"/>
+        <Label FontSize="20" Content="Goals for the session:" HorizontalAlignment="Left" Margin="130,485,0,0" VerticalAlignment="Top"/>
+        <TextBox Name="goalsLabel" FontSize="14"  Text="" IsReadOnly="True" HorizontalAlignment="Left" Height="150" Margin="26,554,0,0" VerticalAlignment="Top" Width="522"/>
+
     </Grid>
 </UserControl>

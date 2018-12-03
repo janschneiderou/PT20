@@ -59,12 +59,17 @@ namespace PT20
 
         private void userSelected_Click(object sender, RoutedEventArgs e)
         {
-            string usersPath = MainWindow.usersPath + "\\" + nameTextBox.Text;
+            //string usersPath = MainWindow.usersPath + "\\" + nameTextBox.Text;
+            string usersPath = System.IO.Path.Combine(MainWindow.usersPath, nameTextBox.Text);
             bool exists = System.IO.Directory.Exists(usersPath);
             if (!exists)
                 System.IO.Directory.CreateDirectory(usersPath);
 
             MainWindow.userDirectory = usersPath;
+
+            //TODO delete when no VR experiment
+            MainWindow.ipAddress = ipText.Text;
+            MainWindow.portNumber = int.Parse(portText.Text);
         }
 
         

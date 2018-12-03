@@ -442,6 +442,8 @@ namespace PT20
 
             parent.rulesAnalyzerFIFO.myJudgementMaker.myVoiceAndMovementObject.isSpeaking = false;
             parent.rulesAnalyzerFIFO.myJudgementMaker.lastSmile = DateTime.Now.TimeOfDay.TotalMilliseconds;
+
+            parent.sendFeedback(PresentationAction.MistakeType.DANCING); //TODO delete this line
         }
 
 
@@ -557,19 +559,27 @@ namespace PT20
         {
             myState = currentState.stop;
 
-            if(parent.recordingClass.isRecording==true)
+            try
             {
-                parent.recordingClass.stopRecording();
-                parent.storeClass.doStopStuff();
+                if (parent.recordingClass.isRecording == true)
+                {
+                    parent.recordingClass.stopRecording();
+                    parent.storeClass.doStopStuff();
+                }
+                pauseControl = new PauseControl();
+                myCanvas.Children.Add(pauseControl);
+                Canvas.SetLeft(pauseControl, 20);
+                Canvas.SetTop(pauseControl, 20);
+                pauseControl.GoBackButton.Click += GoBackButtonPause_Click;
+                pauseControl.GoMainMenu.Click += GoMainMenu1_Click;
+            }
+            catch
+            {
+
             }
 
             
-            pauseControl = new PauseControl();
-            myCanvas.Children.Add(pauseControl);
-            Canvas.SetLeft(pauseControl, 20);
-            Canvas.SetTop(pauseControl, 20);
-            pauseControl.GoBackButton.Click += GoBackButtonPause_Click;
-            pauseControl.GoMainMenu.Click += GoMainMenu1_Click;
+            
 
            
         }

@@ -1,9 +1,12 @@
 ﻿using Microsoft.Kinect;
+using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -136,12 +139,16 @@ namespace PT20
 
         #region staticStringsAndControlVariables
 
+        public static bool freeGoal = false;
         public static string executingDirectory = "";
         public static string userDirectory = "";
         public static string usersPath = "";
         public static string recordingPath ="";
         public static string recordingID = "";
         public static double MaxRecordingTime = 90000;
+
+        public static string ipAddress = "";
+        public static int portNumber = 0;
 
         public static System.DateTime startPresentation;
         public static System.DateTime stopPresentation;
@@ -173,7 +180,8 @@ namespace PT20
         private void initUsersStuff()
         {
             executingDirectory = Directory.GetCurrentDirectory();
-            usersPath = executingDirectory + "\\users"; 
+           // usersPath = executingDirectory + "\\users"; 
+            usersPath = System.IO.Path.Combine(executingDirectory, "users");
             bool exists = System.IO.Directory.Exists(usersPath);
 
             if (!exists)
@@ -203,6 +211,7 @@ namespace PT20
                     loadEntryScreen();
                     break;
                 case States.menu:
+                    initFeedback();
                     loadMainMenu();
                     break;
                 case States.freestyle:
@@ -454,16 +463,22 @@ namespace PT20
 
         private void UserSelected_Click(object sender, RoutedEventArgs e)
         {
+            if(entryScreen.freeGoal.IsChecked==true)
+            {
+                freeGoal = true;
+            }
             MainCanvas.Children.Remove(entryScreen);
             entryScreen = null;
             try
             {
-                if (!File.Exists(userDirectory + "\\focused.txt"))
+
+                string focusFile = System.IO.Path.Combine(userDirectory, "focused.txt");
+                if (!File.Exists(focusFile))
                 {
-                    File.CreateText(userDirectory + "\\focused.txt");
+                    File.CreateText(focusFile);
                 }
                     
-                focusedString = System.IO.File.ReadAllText(userDirectory+"\\focused.txt");
+                focusedString = System.IO.File.ReadAllText(focusFile);
             }
             catch
             {
@@ -602,9 +617,16 @@ namespace PT20
 
             }
 
-            string FileName = userDirectory + "\\focused.txt";
-            System.IO.File.WriteAllText(FileName, focusedString);
             
+            string focusFile = System.IO.Path.Combine(userDirectory, "focused.txt");
+            System.IO.File.WriteAllText(focusFile, focusedString);
+
+            string focusFileGoals = System.IO.Path.Combine(recordingPath, "Goals.txt");
+            string goals = focusedPauses + System.Environment.NewLine;
+            goals =  goals + focusedGestures + System.Environment.NewLine;
+            goals = goals + focusedPosture + System.Environment.NewLine;
+            System.IO.File.WriteAllText(focusFileGoals, goals);
+
             doLogs();
             speakTimes = new ArrayList();
             gestureTimes = new ArrayList();
@@ -628,7 +650,8 @@ namespace PT20
 
         public void doLogs()
         {
-            string filename = MainWindow.recordingPath + "\\Log.txt";
+            //string filename = MainWindow.recordingPath + "\\Log.txt";
+            string filename = System.IO.Path.Combine(MainWindow.recordingPath, "Log.txt");
             System.IO.File.WriteAllText(filename, logString);
             resetStrings();
         }
@@ -737,8 +760,103 @@ namespace PT20
             }
         }
 
+
+
+
         #endregion
 
+
+        #region broadcastFeedback
+
+        private Socket udpSendingSocket;
+        private System.Net.IPEndPoint UDPendPoint;
+
+        void initFeedback()
+        {
+
+
+            udpSendingSocket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram,
+            ProtocolType.Udp);
+
+            IPAddress serverAddr = IPAddress.Parse(ipAddress);
+
+            UDPendPoint = new IPEndPoint(serverAddr, portNumber);
+        }
+
+        public void sendFeedback(PresentationAction.MistakeType mistake)
+        {
+            
+
+            string feedback = "good";
+            switch (mistake)
+            {
+                case PresentationAction.MistakeType.ARMSCROSSED:
+                case PresentationAction.MistakeType.LEFTHANDBEHINDBACK:
+                case PresentationAction.MistakeType.LEFTHANDUNDERHIP:
+                case PresentationAction.MistakeType.LEGSCROSSED:
+                case PresentationAction.MistakeType.RIGHTHANDBEHINDBACK:
+                case PresentationAction.MistakeType.RIGHTHANDUNDERHIP:
+                case PresentationAction.MistakeType.HUNCHBACK:
+                case PresentationAction.MistakeType.RIGHTLEAN:
+                case PresentationAction.MistakeType.LEFTLEAN:
+                    feedback = "Reset Posture";
+                    break;
+                case PresentationAction.MistakeType.DANCING:
+                    feedback = "Stand Still";
+                    break;
+                case PresentationAction.MistakeType.HANDS_NOT_MOVING:
+                    feedback = "Move Hands";
+                    break;
+                case PresentationAction.MistakeType.HANDS_MOVING_MUCH:
+                    feedback = "Move Hands";
+                    break;
+                case PresentationAction.MistakeType.HIGH_VOLUME:
+                    feedback = "Speak Softer";
+                    break;
+                case PresentationAction.MistakeType.LOW_VOLUME:
+                    feedback = "Speak Louder";
+                    break;
+                case PresentationAction.MistakeType.LOW_MODULATION:
+                    feedback = "Module Voice";
+                    break;
+                case PresentationAction.MistakeType.LONG_PAUSE:
+                    feedback = "Start Speaking";
+                    break;
+                case PresentationAction.MistakeType.LONG_TALK:
+                    feedback = "Stop Speaking";
+                    break;
+                case PresentationAction.MistakeType.HMMMM:
+                    feedback = "Stop Hmmmm";
+                    break;
+                case PresentationAction.MistakeType.SERIOUS:
+                    feedback = "Smile";
+                    break;
+                case PresentationAction.MistakeType.NOMISTAKE:
+                    feedback = "Good!!!";
+                    break;
+            }
+
+            FeedbackObject f = new FeedbackObject(startPresentation, feedback, "PT20");
+            string json = Newtonsoft.Json.JsonConvert.SerializeObject(f, Formatting.Indented);
+
+            try
+            {
+               // Socket udpSendingSocket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
+              //  IPAddress serverAddr = IPAddress.Parse("192.168.178.23");
+              //  IPEndPoint UDPendPoint = new IPEndPoint(serverAddr, 16002);
+                byte[] send_buffer = Encoding.ASCII.GetBytes(json);
+                udpSendingSocket.SendTo(send_buffer, UDPendPoint);
+            }
+            catch
+            {
+
+            }
+
+            //byte[] send_buffer = Encoding.ASCII.GetBytes(json);
+            //udpSendingSocket.SendTo(send_buffer, UDPendPoint);
+        }
+
+        #endregion
 
         #region loadingAndClosing
 
@@ -770,8 +888,10 @@ namespace PT20
             
             
             //TODO
-            string pathString = executingDirectory + "\\restart.bat";
-            string pathApp = executingDirectory + "\\PT20.exe";
+           // string pathString = executingDirectory + "\\restart.bat";
+            string pathString = System.IO.Path.Combine(executingDirectory, "restart.bat");
+          //  string pathApp = executingDirectory + "\\PT20.exe";
+            string pathApp = System.IO.Path.Combine(executingDirectory, "PT20.exe");
 
 
 
@@ -781,8 +901,13 @@ namespace PT20
                 w.WriteLine("timeout /t  2");
                 w.WriteLine("Start " + "\"\" \"" + pathApp + "\"");
                 w.Close();
-
-
+            }
+            else
+            {
+                StreamWriter w = new StreamWriter(pathString);
+                w.WriteLine("timeout /t  2");
+                w.WriteLine("Start " + "\"\" \"" + pathApp + "\"");
+                w.Close();
             }
 
             //restart = true;
@@ -846,7 +971,8 @@ namespace PT20
             recordingID = recordingID + DateTime.Now.Hour.ToString();
             recordingID = recordingID + "H" + DateTime.Now.Minute.ToString() + "M" + DateTime.Now.Second.ToString() + "S" + DateTime.Now.Millisecond.ToString();
 
-            recordingPath = userDirectory + "\\"+recordingID;
+           // recordingPath = userDirectory + "\\"+recordingID;
+            recordingPath = System.IO.Path.Combine(userDirectory, recordingID);
             bool exists = System.IO.Directory.Exists(recordingPath);
 
             if (!exists)

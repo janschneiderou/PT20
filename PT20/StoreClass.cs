@@ -45,7 +45,8 @@ namespace PT20
             {
                 string json = JsonConvert.SerializeObject(myRecordingObject, Formatting.Indented);
                 
-                string fileName = MainWindow.recordingPath + "\\" + myRecordingObject.recordingID + myRecordingObject.applicationName + ".json";
+               // string fileName = MainWindow.recordingPath + "\\" + myRecordingObject.recordingID + myRecordingObject.applicationName + ".json";
+                string fileName = System.IO.Path.Combine(MainWindow.recordingPath, myRecordingObject.recordingID + myRecordingObject.applicationName + ".json");
                 File.WriteAllText(fileName, json);
                 
                 x++;
