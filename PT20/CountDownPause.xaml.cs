@@ -99,7 +99,15 @@ namespace PT20
         {
             if (MainWindow.stopGesture)
             {
-                countdownFinished(this);
+                try
+                {
+                    countdownFinished(this);
+                }
+                catch
+                {
+
+                }
+                
                 animationStarted = false;
             }
             else

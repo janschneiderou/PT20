@@ -608,9 +608,13 @@ namespace PT20
 
             try
             {
-                freestyleMode.unload();
-                MainCanvas.Children.Remove(freestyleMode);
-                freestyleMode = null;
+                if (freestyleMode != null)
+                {
+                    freestyleMode.unload();
+                    MainCanvas.Children.Remove(freestyleMode);
+                    freestyleMode = null;
+                }
+                
             }
             catch
             {
@@ -685,79 +689,79 @@ namespace PT20
 
         public void sendValues()
         {
-            try
-            {
-                List<string> values = new List<string>();
+            //try
+            //{
+            //    List<string> values = new List<string>();
 
-                values.Add(rulesAnalyzerFIFO.myJudgementMaker.apa.averageVolume + "");
-                values.Add(rulesAnalyzerFIFO.myJudgementMaker.ffpa.smiling + "");
+            //    values.Add(rulesAnalyzerFIFO.myJudgementMaker.apa.averageVolume + "");
+            //    values.Add(rulesAnalyzerFIFO.myJudgementMaker.ffpa.smiling + "");
 
-                values.Add(rulesAnalyzerFIFO.myJudgementMaker.bfpa.body.Joints[JointType.AnkleRight].Position.X + "");
-                values.Add(rulesAnalyzerFIFO.myJudgementMaker.bfpa.body.Joints[JointType.AnkleRight].Position.Y + "");
-                values.Add(rulesAnalyzerFIFO.myJudgementMaker.bfpa.body.Joints[JointType.AnkleRight].Position.Z + "");
+            //    values.Add(rulesAnalyzerFIFO.myJudgementMaker.bfpa.body.Joints[JointType.AnkleRight].Position.X + "");
+            //    values.Add(rulesAnalyzerFIFO.myJudgementMaker.bfpa.body.Joints[JointType.AnkleRight].Position.Y + "");
+            //    values.Add(rulesAnalyzerFIFO.myJudgementMaker.bfpa.body.Joints[JointType.AnkleRight].Position.Z + "");
 
-                values.Add(rulesAnalyzerFIFO.myJudgementMaker.bfpa.body.Joints[JointType.AnkleLeft].Position.X + "");
-                values.Add(rulesAnalyzerFIFO.myJudgementMaker.bfpa.body.Joints[JointType.AnkleLeft].Position.Y + "");
-                values.Add(rulesAnalyzerFIFO.myJudgementMaker.bfpa.body.Joints[JointType.AnkleLeft].Position.Z + "");
+            //    values.Add(rulesAnalyzerFIFO.myJudgementMaker.bfpa.body.Joints[JointType.AnkleLeft].Position.X + "");
+            //    values.Add(rulesAnalyzerFIFO.myJudgementMaker.bfpa.body.Joints[JointType.AnkleLeft].Position.Y + "");
+            //    values.Add(rulesAnalyzerFIFO.myJudgementMaker.bfpa.body.Joints[JointType.AnkleLeft].Position.Z + "");
 
-                values.Add(rulesAnalyzerFIFO.myJudgementMaker.bfpa.body.Joints[JointType.ElbowRight].Position.X + "");
-                values.Add(rulesAnalyzerFIFO.myJudgementMaker.bfpa.body.Joints[JointType.ElbowRight].Position.Y + "");
-                values.Add(rulesAnalyzerFIFO.myJudgementMaker.bfpa.body.Joints[JointType.ElbowRight].Position.Z + "");
+            //    values.Add(rulesAnalyzerFIFO.myJudgementMaker.bfpa.body.Joints[JointType.ElbowRight].Position.X + "");
+            //    values.Add(rulesAnalyzerFIFO.myJudgementMaker.bfpa.body.Joints[JointType.ElbowRight].Position.Y + "");
+            //    values.Add(rulesAnalyzerFIFO.myJudgementMaker.bfpa.body.Joints[JointType.ElbowRight].Position.Z + "");
 
-                values.Add(rulesAnalyzerFIFO.myJudgementMaker.bfpa.body.Joints[JointType.ElbowLeft].Position.X + "");
-                values.Add(rulesAnalyzerFIFO.myJudgementMaker.bfpa.body.Joints[JointType.ElbowLeft].Position.Y + "");
-                values.Add(rulesAnalyzerFIFO.myJudgementMaker.bfpa.body.Joints[JointType.ElbowLeft].Position.Z + "");
+            //    values.Add(rulesAnalyzerFIFO.myJudgementMaker.bfpa.body.Joints[JointType.ElbowLeft].Position.X + "");
+            //    values.Add(rulesAnalyzerFIFO.myJudgementMaker.bfpa.body.Joints[JointType.ElbowLeft].Position.Y + "");
+            //    values.Add(rulesAnalyzerFIFO.myJudgementMaker.bfpa.body.Joints[JointType.ElbowLeft].Position.Z + "");
 
-                values.Add(rulesAnalyzerFIFO.myJudgementMaker.bfpa.body.Joints[JointType.HandRight].Position.X + "");
-                values.Add(rulesAnalyzerFIFO.myJudgementMaker.bfpa.body.Joints[JointType.HandRight].Position.Y + "");
-                values.Add(rulesAnalyzerFIFO.myJudgementMaker.bfpa.body.Joints[JointType.HandRight].Position.Z + "");
+            //    values.Add(rulesAnalyzerFIFO.myJudgementMaker.bfpa.body.Joints[JointType.HandRight].Position.X + "");
+            //    values.Add(rulesAnalyzerFIFO.myJudgementMaker.bfpa.body.Joints[JointType.HandRight].Position.Y + "");
+            //    values.Add(rulesAnalyzerFIFO.myJudgementMaker.bfpa.body.Joints[JointType.HandRight].Position.Z + "");
 
-                values.Add(rulesAnalyzerFIFO.myJudgementMaker.bfpa.body.Joints[JointType.HandLeft].Position.X + "");
-                values.Add(rulesAnalyzerFIFO.myJudgementMaker.bfpa.body.Joints[JointType.HandLeft].Position.Y + "");
-                values.Add(rulesAnalyzerFIFO.myJudgementMaker.bfpa.body.Joints[JointType.HandLeft].Position.Z + "");
+            //    values.Add(rulesAnalyzerFIFO.myJudgementMaker.bfpa.body.Joints[JointType.HandLeft].Position.X + "");
+            //    values.Add(rulesAnalyzerFIFO.myJudgementMaker.bfpa.body.Joints[JointType.HandLeft].Position.Y + "");
+            //    values.Add(rulesAnalyzerFIFO.myJudgementMaker.bfpa.body.Joints[JointType.HandLeft].Position.Z + "");
 
-                values.Add(rulesAnalyzerFIFO.myJudgementMaker.bfpa.body.Joints[JointType.HandTipRight].Position.X + "");
-                values.Add(rulesAnalyzerFIFO.myJudgementMaker.bfpa.body.Joints[JointType.HandTipRight].Position.Y + "");
-                values.Add(rulesAnalyzerFIFO.myJudgementMaker.bfpa.body.Joints[JointType.HandTipRight].Position.Z + "");
+            //    values.Add(rulesAnalyzerFIFO.myJudgementMaker.bfpa.body.Joints[JointType.HandTipRight].Position.X + "");
+            //    values.Add(rulesAnalyzerFIFO.myJudgementMaker.bfpa.body.Joints[JointType.HandTipRight].Position.Y + "");
+            //    values.Add(rulesAnalyzerFIFO.myJudgementMaker.bfpa.body.Joints[JointType.HandTipRight].Position.Z + "");
 
-                values.Add(rulesAnalyzerFIFO.myJudgementMaker.bfpa.body.Joints[JointType.HandTipLeft].Position.X + "");
-                values.Add(rulesAnalyzerFIFO.myJudgementMaker.bfpa.body.Joints[JointType.HandTipLeft].Position.Y + "");
-                values.Add(rulesAnalyzerFIFO.myJudgementMaker.bfpa.body.Joints[JointType.HandTipLeft].Position.Z + "");
+            //    values.Add(rulesAnalyzerFIFO.myJudgementMaker.bfpa.body.Joints[JointType.HandTipLeft].Position.X + "");
+            //    values.Add(rulesAnalyzerFIFO.myJudgementMaker.bfpa.body.Joints[JointType.HandTipLeft].Position.Y + "");
+            //    values.Add(rulesAnalyzerFIFO.myJudgementMaker.bfpa.body.Joints[JointType.HandTipLeft].Position.Z + "");
 
-                values.Add(rulesAnalyzerFIFO.myJudgementMaker.bfpa.body.Joints[JointType.Head].Position.X + "");
-                values.Add(rulesAnalyzerFIFO.myJudgementMaker.bfpa.body.Joints[JointType.Head].Position.Y + "");
-                values.Add(rulesAnalyzerFIFO.myJudgementMaker.bfpa.body.Joints[JointType.Head].Position.Z + "");
+            //    values.Add(rulesAnalyzerFIFO.myJudgementMaker.bfpa.body.Joints[JointType.Head].Position.X + "");
+            //    values.Add(rulesAnalyzerFIFO.myJudgementMaker.bfpa.body.Joints[JointType.Head].Position.Y + "");
+            //    values.Add(rulesAnalyzerFIFO.myJudgementMaker.bfpa.body.Joints[JointType.Head].Position.Z + "");
 
-                values.Add(rulesAnalyzerFIFO.myJudgementMaker.bfpa.body.Joints[JointType.HipRight].Position.X + "");
-                values.Add(rulesAnalyzerFIFO.myJudgementMaker.bfpa.body.Joints[JointType.HipRight].Position.Y + "");
-                values.Add(rulesAnalyzerFIFO.myJudgementMaker.bfpa.body.Joints[JointType.HipRight].Position.Z + "");
+            //    values.Add(rulesAnalyzerFIFO.myJudgementMaker.bfpa.body.Joints[JointType.HipRight].Position.X + "");
+            //    values.Add(rulesAnalyzerFIFO.myJudgementMaker.bfpa.body.Joints[JointType.HipRight].Position.Y + "");
+            //    values.Add(rulesAnalyzerFIFO.myJudgementMaker.bfpa.body.Joints[JointType.HipRight].Position.Z + "");
 
-                values.Add(rulesAnalyzerFIFO.myJudgementMaker.bfpa.body.Joints[JointType.HipLeft].Position.X + "");
-                values.Add(rulesAnalyzerFIFO.myJudgementMaker.bfpa.body.Joints[JointType.HipLeft].Position.Y + "");
-                values.Add(rulesAnalyzerFIFO.myJudgementMaker.bfpa.body.Joints[JointType.HipLeft].Position.Z + "");
+            //    values.Add(rulesAnalyzerFIFO.myJudgementMaker.bfpa.body.Joints[JointType.HipLeft].Position.X + "");
+            //    values.Add(rulesAnalyzerFIFO.myJudgementMaker.bfpa.body.Joints[JointType.HipLeft].Position.Y + "");
+            //    values.Add(rulesAnalyzerFIFO.myJudgementMaker.bfpa.body.Joints[JointType.HipLeft].Position.Z + "");
 
-                values.Add(rulesAnalyzerFIFO.myJudgementMaker.bfpa.body.Joints[JointType.ShoulderRight].Position.X + "");
-                values.Add(rulesAnalyzerFIFO.myJudgementMaker.bfpa.body.Joints[JointType.ShoulderRight].Position.Y + "");
-                values.Add(rulesAnalyzerFIFO.myJudgementMaker.bfpa.body.Joints[JointType.ShoulderRight].Position.Z + "");
+            //    values.Add(rulesAnalyzerFIFO.myJudgementMaker.bfpa.body.Joints[JointType.ShoulderRight].Position.X + "");
+            //    values.Add(rulesAnalyzerFIFO.myJudgementMaker.bfpa.body.Joints[JointType.ShoulderRight].Position.Y + "");
+            //    values.Add(rulesAnalyzerFIFO.myJudgementMaker.bfpa.body.Joints[JointType.ShoulderRight].Position.Z + "");
 
-                values.Add(rulesAnalyzerFIFO.myJudgementMaker.bfpa.body.Joints[JointType.ShoulderLeft].Position.X + "");
-                values.Add(rulesAnalyzerFIFO.myJudgementMaker.bfpa.body.Joints[JointType.ShoulderLeft].Position.Y + "");
-                values.Add(rulesAnalyzerFIFO.myJudgementMaker.bfpa.body.Joints[JointType.ShoulderLeft].Position.Z + "");
+            //    values.Add(rulesAnalyzerFIFO.myJudgementMaker.bfpa.body.Joints[JointType.ShoulderLeft].Position.X + "");
+            //    values.Add(rulesAnalyzerFIFO.myJudgementMaker.bfpa.body.Joints[JointType.ShoulderLeft].Position.Y + "");
+            //    values.Add(rulesAnalyzerFIFO.myJudgementMaker.bfpa.body.Joints[JointType.ShoulderLeft].Position.Z + "");
 
-                values.Add(rulesAnalyzerFIFO.myJudgementMaker.bfpa.body.Joints[JointType.SpineMid].Position.X + "");
-                values.Add(rulesAnalyzerFIFO.myJudgementMaker.bfpa.body.Joints[JointType.SpineMid].Position.Y + "");
-                values.Add(rulesAnalyzerFIFO.myJudgementMaker.bfpa.body.Joints[JointType.SpineMid].Position.Z + "");
+            //    values.Add(rulesAnalyzerFIFO.myJudgementMaker.bfpa.body.Joints[JointType.SpineMid].Position.X + "");
+            //    values.Add(rulesAnalyzerFIFO.myJudgementMaker.bfpa.body.Joints[JointType.SpineMid].Position.Y + "");
+            //    values.Add(rulesAnalyzerFIFO.myJudgementMaker.bfpa.body.Joints[JointType.SpineMid].Position.Z + "");
 
-                values.Add(rulesAnalyzerFIFO.myJudgementMaker.bfpa.body.Joints[JointType.SpineShoulder].Position.X + "");
-                values.Add(rulesAnalyzerFIFO.myJudgementMaker.bfpa.body.Joints[JointType.SpineShoulder].Position.Y + "");
-                values.Add(rulesAnalyzerFIFO.myJudgementMaker.bfpa.body.Joints[JointType.SpineShoulder].Position.Z + "");
+            //    values.Add(rulesAnalyzerFIFO.myJudgementMaker.bfpa.body.Joints[JointType.SpineShoulder].Position.X + "");
+            //    values.Add(rulesAnalyzerFIFO.myJudgementMaker.bfpa.body.Joints[JointType.SpineShoulder].Position.Y + "");
+            //    values.Add(rulesAnalyzerFIFO.myJudgementMaker.bfpa.body.Joints[JointType.SpineShoulder].Position.Z + "");
 
-                storeClass.storeFrame(values);
-            }
-            catch
-            {
+            //    storeClass.storeFrame(values);
+            //}
+            //catch
+            //{
 
-            }
+            //}
         }
 
 

@@ -156,7 +156,14 @@ namespace PT20
                 }
                 else if (currenTime - lastPostureImageTime > 5000)
                 {
-                    MainWindow.postureImages[2] = parent.videoHandler.kinectImage.Source.CloneCurrentValue();
+                    try
+                    {
+                        MainWindow.postureImages[2] = parent.videoHandler.kinectImage.Source.CloneCurrentValue();
+                    }
+                    catch
+                    {
+
+                    }
                     lastPostureImageTime = currenTime;
                 }
             }
@@ -207,8 +214,14 @@ namespace PT20
 
                                 bodyMistakes.Add(fa);
                                 resetPostureImage = true;
+                                try
+                                {
+                                    fa.firstImage = parent.videoHandler.kinectImage.Source.CloneCurrentValue();
+                                }
+                                catch
+                                {
 
-                                fa.firstImage = parent.videoHandler.kinectImage.Source.CloneCurrentValue();
+                                }
                             }
                         }
                         else
@@ -365,7 +378,7 @@ namespace PT20
                 PresentationAction pa = new PresentationAction(PresentationAction.MistakeType.SERIOUS);
                 pa.timeStarted = currentTime;// -lastSmile - ThresholdSmile;
                 pa.isVoiceAndMovementMistake = true;
-                pa.firstImage = parent.videoHandler.kinectImage.Source.CloneCurrentValue();
+                //pa.firstImage = parent.videoHandler.kinectImage.Source.CloneCurrentValue();
                 if (currentTime - lastSmile > ThresholdSmile + TIME_TO_CONSIDER_INTERRUPTION)
                 {
                     pa.interrupt = true;
@@ -430,7 +443,14 @@ namespace PT20
                 {
                     System.Windows.Media.ImageSource im = parent.videoHandler.kinectImage.Source;
                     //  pa.firstImage = myVoiceAndMovementObject.firstImage.CloneCurrentValue();
-                    myVoiceAndMovementObject.lastImage = im.CloneCurrentValue();
+                    try
+                    {
+                        myVoiceAndMovementObject.lastImage = im.CloneCurrentValue();
+                    }
+                    catch
+                    {
+
+                    }
                     //  pa.lastImage = im.CloneCurrentValue();
                 }
 
@@ -471,7 +491,15 @@ namespace PT20
                 }
                 else if (resetGestureImage == 2)
                 {
-                    MainWindow.gestureImages[2] = parent.videoHandler.kinectImage.Source.CloneCurrentValue();
+                    try
+                    {
+                        MainWindow.gestureImages[2] = parent.videoHandler.kinectImage.Source.CloneCurrentValue();
+                    }
+                    catch
+                    {
+
+                    }
+                    
                 }
 
             }
@@ -670,7 +698,14 @@ namespace PT20
             if (parent.videoHandler.kinectImage.Source != null)
             {
                 myVoiceAndMovementObject.firstImage = null;
-                myVoiceAndMovementObject.firstImage = parent.videoHandler.kinectImage.Source.CloneCurrentValue();
+                try
+                {
+                    myVoiceAndMovementObject.firstImage = parent.videoHandler.kinectImage.Source.CloneCurrentValue();
+                }
+                catch
+                {
+
+                }
             }
 
             armMovementsCalc.resetMaxAndMin();

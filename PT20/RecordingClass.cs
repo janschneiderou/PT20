@@ -227,7 +227,7 @@ namespace PT20
                 process.StartInfo.CreateNoWindow = true;
 
                 process.Start();
-                process.WaitForExit();
+               // process.WaitForExit();
                 vf.Dispose();
                 AudioSource.Dispose();
 
